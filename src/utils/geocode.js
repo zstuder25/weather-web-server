@@ -2,9 +2,11 @@ const request = require('postman-request')
 const PropertiesReader = require('properties-reader')
 const prop = PropertiesReader('./app.properties')
 
+const mapboxToken = process.env.MAPBOX_TOKEN || prop.get('mapbox.token')
+
 const geocode = (address, callback) => {
     const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+ encodeURIComponent(address) + '.json?access_token=' +
-        prop.get('mapbox.token') + '&limit=1'
+        mapboxToken + '&limit=1'
 
     request({ url, json: true }, (error, { body }) => {
         if(error){

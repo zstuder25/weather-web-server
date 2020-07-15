@@ -2,8 +2,10 @@ const request = require('postman-request')
 const PropertiesReader = require('properties-reader')
 const prop = PropertiesReader('./app.properties')
 
+const weatherStackKey = process.env.WEATHERSTACK_KEY || prop.get('weather_stack.access_key')
+
 const forecast = (lat, long, callback) => {
-    const url = 'http://api.weatherstack.com/current?access_key='+ prop.get('weather_stack.access_key')
+    const url = 'http://api.weatherstack.com/current?access_key='+ weatherStackKey
         +'&query='+ lat + ','+ long +'&units=f'
     request({ url, json: true }, (error, { body }) => {
         if(error){
